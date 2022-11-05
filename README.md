@@ -38,11 +38,13 @@ If you want to connect to SQL Database, use the folloging info
 - For development:
     - host: `localhost`
     - port: `1433`
+    - schema: `master`
     - user: `SA`
     - password: `Password#12345`
 - For production:
     - host: `localhost`
     - port: `1434`
+    - schema: `master`
     - user: `SA`
     - password: `Password#12345`
 
