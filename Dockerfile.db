@@ -10,6 +10,8 @@ COPY ./database/setup .
 
 EXPOSE 1433
 
+RUN sed -i 's/\r//' ./entrypoint.sh
+RUN sed -i 's/\r//' ./setup-db.sh
 RUN chmod +x entrypoint.sh
 
 CMD /bin/bash ./entrypoint.sh

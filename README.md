@@ -40,7 +40,7 @@ If you want to connect to SQL Database, use the folloging info
     - port: `1433`
     - user: `SA`
     - password: `Password#12345`
-- For development:
+- For production:
     - host: `localhost`
     - port: `1434`
     - user: `SA`
@@ -52,7 +52,7 @@ Database scripts are located in `database\scripts` project path
 
 If you want to try the API in postman, use the following info:
 - Host for development: `http://localhost:8080`
-- Host for development: `http://localhost:8081`
+- Host for production: `http://localhost:8081`
 
 Get the `access token` in the route `/api/auth` with the default admin user created during deploy:
 - username: `admin`
