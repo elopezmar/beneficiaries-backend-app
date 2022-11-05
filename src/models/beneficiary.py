@@ -127,9 +127,9 @@ class Beneficiary:
         nationality: Optional[Nationality] = None
 
         if to_update.birth_date is not None:
-            validate_birth_date(self.birth_date)
+            validate_birth_date(to_update.birth_date)
         if to_update.phone is not None:
-            validate_phone(self.phone)
+            validate_phone(to_update.phone)
         if to_update.nationality_id is not None:
             nationality = Nationality.get(to_update.nationality_id)
 
