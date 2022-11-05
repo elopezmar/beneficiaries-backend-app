@@ -1,0 +1,15 @@
+FROM mcr.microsoft.com/mssql/server:2022-latest
+
+USER root
+
+ENV ACCEPT_EULA Y
+ENV SA_PASSWORD Password#12345
+
+COPY ./database/scripts .
+COPY ./database/setup .
+
+EXPOSE 1433
+
+RUN chmod +x entrypoint.sh
+
+CMD /bin/bash ./entrypoint.sh

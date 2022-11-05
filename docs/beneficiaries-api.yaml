@@ -1,0 +1,406 @@
+openapi: 3.0.0
+info:
+  version: 1.0.0
+  title: Beneficiaries API documentation
+  license:
+    name: Apache-2.0
+    url: 'https://www.apache.org/licenses/LICENSE-2.0.html'
+paths:
+  /api/auth:
+    post:
+      summary: Obtains API access token
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Auth'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+        required: true
+  /api/nationalities:
+    get:
+      summary: Get nationalities catalog list
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Nationality'
+  /api/employee:
+    post:
+      summary: Creates a new employee
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateEmployee'
+        required: true
+  '/api/employee/{employeeId}':
+    get:
+      summary: Gets a employee
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to be retrieved
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+    put:
+      summary: Updates a employee
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateEmployee'
+        required: true
+    delete:
+      summary: Deletes a employee
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Employee'
+  /api/employees:
+    get:
+      summary: Get active employees list
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Employee'
+  '/api/employee/{employeeId}/beneficiary':
+    post:
+      summary: Creates a beneficiary
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee to associate beneficiary
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateBeneficiary'
+        required: true
+  '/api/employee/{employeeId}/beneficiary/{beneficiaryId}':
+    put:
+      summary: Updates a beneficiary
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee associated to beneficiary
+          required: true
+          schema:
+            type: integer
+        - name: beneficiaryId
+          in: path
+          description: ID of beneficiary to be updated
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateBeneficiary'
+        required: true
+    delete:
+      summary: Deletes a beneficiary
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee associated to beneficiary
+          required: true
+          schema:
+            type: integer
+        - name: beneficiaryId
+          in: path
+          description: ID of beneficiary to be deleted
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Beneficiary'
+  '/api/employee/{employeeId}/beneficiaries':
+    get:
+      summary: Obtains beneficiaries associated to employee
+      description: 'Requires authorization header: { Authorization: JWT access_token }'
+      parameters:
+        - name: employeeId
+          in: path
+          description: ID of employee associated to beneficiary
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Beneficiary'
+components:
+  schemas:
+    Login:
+      title: Login model
+      type: object
+      required:
+        - username
+        - password
+      properties:
+        username:
+          type: string
+        password:
+          type: string
+    Auth:
+      title: Auth model
+      type: object
+      properties:
+        access_token:
+          type: string
+    Nationality:
+      title: Nationality model
+      type: object
+      properties:
+        id:
+          type: integer
+        description:
+          type: string
+    Employee:
+      title: Employee model
+      type: object
+      properties:
+        id:
+          type: integer
+        nationalityId:
+          type: integer
+        nationality:
+          type: string
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        employeeNumber:
+          type: string
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+        isActive:
+          type: boolean
+    CreateEmployee:
+      title: Create employee payload
+      type: object
+      required:
+        - nationalityId
+        - firstName
+        - lastName
+        - birthDate
+        - employeeNumber
+        - phone
+      properties:
+        nationalityId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        employeeNumber:
+          type: string
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+    UpdateEmployee:
+      title: Update employee payload
+      type: object
+      properties:
+        nationalityId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        employeeNumber:
+          type: string
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+    Beneficiary:
+      title: Beneficiary model
+      type: object
+      properties:
+        id:
+          type: integer
+        nationalityId:
+          type: integer
+        nationality:
+          type: string
+        employeeId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+        participationPercent:
+          type: number
+          format: float
+        isActive:
+          type: boolean
+    CreateBeneficiary:
+      title: Create beneficiary payload
+      type: object
+      required:
+        - nationalityId
+        - firstName
+        - lastName
+        - birthDate
+        - phone
+        - participationPercent
+      properties:
+        nationalityId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+        participationPercent:
+          type: number
+          format: float
+    UpdateBeneficiary:
+      title: Update beneficiary payload
+      type: object
+      properties:
+        nationalityId:
+          type: integer
+        firstName:
+          type: string
+        lastName:
+          type: string
+        birthDate:
+          type: string
+          format: date
+        curp:
+          type: string
+        ssn:
+          type: string
+        phone:
+          type: string
+        participationPercent:
+          type: number
+          format: float
